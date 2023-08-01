@@ -1,0 +1,44 @@
+﻿<Window x:Class="Grundlagen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Grundlagen"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="271" Width="280">
+    <Window.Content>
+
+        <StackPanel Background="Yellow">
+            
+            <TextBox Margin="20" Text="Inhalt" Foreground="#FFFB0F0F"/>
+            <Button Margin="10" HorizontalAlignment="Right" Content="OK"/>
+
+            <Button Content="Ich bin ein Button"
+                    Background="HotPink"
+                    Margin="50, 20, 10, 5"
+                    HorizontalAlignment="Right"
+                    x:Name="Btn_KlickMich"
+                    Click="Btn_KlickMich_Click"/>
+
+            <Button>
+                <Button.Content>
+                    <CheckBox Content="Hak mich ab"/>
+                </Button.Content>
+
+                <Button.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="LightBlue" Offset="0"/>
+                        <GradientStop Color="Orange" Offset="0.5"/>
+                        <GradientStop Color="DarkBlue" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+
+            <Button>
+                Klick Mich
+            </Button>
+            
+        </StackPanel>
+        
+    </Window.Content>
+</Window >
