@@ -27,7 +27,8 @@ namespace Container
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Canvas.SetLeft(Rct_Show, 150);
+            //Codeseitiger Schreib-Zugriff auf eine Attached-Property des Canvas
+            Canvas.SetLeft(Rct_Blue, Canvas.GetLeft(Rct_Blue) + 10);
         }
     }
 }
