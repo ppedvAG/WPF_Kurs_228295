@@ -18,7 +18,7 @@
     </Window.Background>
 
     <Window.DataContext>
-        <local:Person/>
+        <local:Person Geschlecht="Weiblich"/>
     </Window.DataContext>
 
     <Grid Margin="10">
@@ -99,8 +99,11 @@
                          GroupName="Rbg_Gender"
                          VerticalContentAlignment="Center">
                 <RadioButton.IsChecked>
-                    <Binding Path="Geschlecht">
-                        
+                    <Binding Path="Geschlecht"
+                             ConverterParameter="{x:Static local:Gender.Männlich}">
+                        <Binding.Converter>
+                            <local:EnumToBoolConverter/>
+                        </Binding.Converter>
                     </Binding>
                 </RadioButton.IsChecked>
             </RadioButton>
@@ -108,8 +111,11 @@
                          GroupName="Rbg_Gender"
                          VerticalContentAlignment="Center">
                 <RadioButton.IsChecked>
-                    <Binding Path="Geschlecht">
-                        
+                    <Binding Path="Geschlecht"
+                             ConverterParameter="{x:Static local:Gender.Weiblich}">
+                        <Binding.Converter>
+                            <local:EnumToBoolConverter/>
+                        </Binding.Converter>
                     </Binding>
                 </RadioButton.IsChecked>
             </RadioButton>
@@ -117,8 +123,11 @@
                          GroupName="Rbg_Gender"
                          VerticalContentAlignment="Center">
                 <RadioButton.IsChecked>
-                    <Binding Path="Geschlecht">
-                        
+                    <Binding Path="Geschlecht"
+                             ConverterParameter="{x:Static local:Gender.Divers}">
+                        <Binding.Converter>
+                            <local:EnumToBoolConverter/>
+                        </Binding.Converter>
                     </Binding>
                 </RadioButton.IsChecked>
             </RadioButton>
