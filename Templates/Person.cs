@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Templates
 {
+    //Bsp-Klasse
     public class Person
     {
         public string Vorname { get; set; }

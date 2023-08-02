@@ -11,11 +11,24 @@
         Style="{StaticResource Sty_Wnd}">
 
     <Window.DataContext>
-        <local:Person Geschlecht="Weiblich"/>
+        <local:Person Geschlecht="Weiblich" Lieblingsfarbe="Purple"/>
     </Window.DataContext>
 
     <Window.Resources>
         <local:EnumToBoolConverter x:Key="gender2bool"/>
+
+        <x:Array Type="{x:Type Color}" x:Key="usedColors">
+            <Color>Green</Color>
+            <Color>Red</Color>
+            <Color>Blue</Color>
+            <Color>Yellow</Color>
+            <Color>Orange</Color>
+            <Color>Purple</Color>
+            <Color>Black</Color>
+            <Color>White</Color>
+        </x:Array>
+
+        <local:ColorToBrushConverter x:Key="color2brush"/>
     </Window.Resources>
     
     <Grid Margin="10">
@@ -64,11 +77,18 @@
 
         <ComboBox x:Name="Cbb_Lieblingsfarbe"
                   Grid.Column="1" Grid.Row="4"
-                  SelectedValue="{Binding Lieblingsfarbe}">
-            <ComboBoxItem Content="Grün" Foreground="Green"/>
-            <ComboBoxItem Content="Blau" Foreground="Blue"/>
-            <ComboBoxItem Content="Rot" Foreground="Red"/>
-            <ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+                  SelectedItem="{Binding Lieblingsfarbe}"
+                  ItemsSource="{StaticResource usedColors}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type Color}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border BorderBrush="Black" BorderThickness="1" Width="20" Height="20" Margin="5,0">
+                            <Rectangle Width="20" Height="20" Fill="{Binding Converter={StaticResource color2brush}}"/>
+                        </Border>
+                        <TextBlock Text="{Binding}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </ComboBox>
 
         <StackPanel Margin="2"

@@ -21,28 +21,46 @@ namespace Templates
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Person> Personenliste { get; set; } = new ObservableCollection<Person>()
-        {
-            new Person(){Vorname="Anna", Nachname="Nass", Alter=45},
-            new Person(){Vorname="Rainer", Nachname="Zufall", Alter=33},
-            new Person(){Vorname="Maria", Nachname="Schmidt", Alter=12},
-        };
+        public ObservableCollection<Person> Personenliste { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            //Vorbereitung
+            Personenliste = new ObservableCollection<Person>()
+            {
+                new Person(){Vorname="Otto", Nachname="Meier", Alter=55},
+                new Person(){Vorname="Jürgen", Nachname="Müller", Alter=78},
+                new Person(){Vorname="Maria", Nachname="Schmidt", Alter=24}
+            };
+
             this.DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Btn_ControlTemplate_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Button funktioniert");
         }
 
-        private void Btn_Delete_Click(object sender, RoutedEventArgs e)
+        private void Btn_Neu_Click(object sender, RoutedEventArgs e)
         {
-            Personenliste.Remove((sender as Button).Tag as Person);
+            //Hinzufügen einer neuen Person
+            Personenliste.Add(new Person() { Vorname = "Sarah", Nachname = "Schmidt", Alter = 45 });
+        }
+
+        private void Btn_Loeschen_01_Click(object sender, RoutedEventArgs e)
+        {
+            //Löschen der in dem ListView angewählten Person
+            if (Lbx_Personen.SelectedItem is Person)
+                Personenliste.Remove(Lbx_Personen.SelectedItem as Person);
+        }
+
+        private void Btn_Loeschen_02_Click(object sender, RoutedEventArgs e)
+        {
+            //Löschen der Person, welche in dem Button-Tag liegt
+            if ((sender as Button).Tag is Person)
+                Personenliste.Remove((sender as Button).Tag as Person);
         }
     }
 }
