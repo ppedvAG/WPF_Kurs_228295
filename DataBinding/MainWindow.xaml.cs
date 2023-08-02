@@ -21,60 +21,59 @@ namespace DataBinding
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
-        public ObservableCollection<Person> Personenliste { get; set; } = new ObservableCollection<Person>()
-        {
-            new Person(){Name = "Anna Nass", Alter=56},
-            new Person(){Name = "Rainer Zufall", Alter=16},
-            new Person(){Name = "Maria Schmidt", Alter=87},
-        };
+        //Properties vom Typ ObservableCollection informieren die GUI automatisch über Veränderungen (z.B. neuer Listeneintrag). Sie eignen sich besonders gut
+        //für eine Bindung an ein ItemControl (z.B. ComboBox, ListBox, DataGrid, ...)
+        public ObservableCollection<Person> Personenliste { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
+            //Erstellen von Bsp-Daten
+            Personenliste = new ObservableCollection<Person>()
+            {
+                new Person(){Vorname="Hannes", Nachname="Müller", Alter=56},
+                new Person(){Vorname="Anna", Nachname="Schmidt", Alter=24}
+            };
+
+            //Setzen des DataContext des Fensters auf sich selbst (Einfache Bindungen zu Properties in diesem Objekt möglich)
             this.DataContext = this;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private void Btn_Show_Click(object sender, RoutedEventArgs e)
         {
-            Person person = (Spl_DataContextBeispiel.DataContext as Person);
-
-            MessageBox.Show($"{person.Name} ({person.Alter})");
+            //Ausgabe der Vorname-Property
+            MessageBox.Show((Spl_DataContextBsp.DataContext as Person).Vorname);
         }
 
         private void Btn_Altern_Click(object sender, RoutedEventArgs e)
         {
-            Person person = (Spl_DataContextBeispiel.DataContext as Person);
-
-            person.Alter++;
-            //person.OnPropertyChanged("Alter");
-
-            Debug.WriteLine(person.Alter.ToString());
+            //Erhöhung des Alters der Person im DataContextes des StackPanels
+            (Spl_DataContextBsp.DataContext as Person).Alter++;
         }
 
-        private void Btn_NeuesDatum_Click(object sender, RoutedEventArgs e)
+        private void Btn_NewDay_Click(object sender, RoutedEventArgs e)
         {
-            Person person = (Spl_DataContextBeispiel.DataContext as Person);
-
-            person.WichtigeTage.Add(new DateTime(2022, 4, 6));
-            person.OnPropertyChanged("LastObject");
+            Person person = Spl_DataContextBsp.DataContext as Person;
+            //Hinzufügen eines neuen Tages und Aktualisierung der GUI
+            person.WichtigeTage.Add(new DateTime(2000, 1, 1));
+            person.UpdateLastObject();
         }
 
-        private void Btn_Add_Click(object sender, RoutedEventArgs e)
+        private void Btn_Neu_Click(object sender, RoutedEventArgs e)
         {
-            Personenliste.Add(new Person() { Name = "Hugo Meier", Alter = 67 });
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Personenliste)));
+            //Hinzufügen einer neuen Person
+            Personenliste.Add(new Person() { Vorname = "Sarah", Nachname = "Meier", Alter = 12 });
         }
 
-        private void Btn_Delete_Click(object sender, RoutedEventArgs e)
+        private void Btn_Löschen_Click(object sender, RoutedEventArgs e)
         {
-            if (Lstb_Personen.SelectedItem != null)
-                Personenliste.Remove(Lstb_Personen.SelectedItem as Person);
-            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Personenliste)));
+            //Löschen der in dem ListView angewählten Person
+            if (Lbx_Personen.SelectedItem is Person)
+                Personenliste.Remove(Lbx_Personen.SelectedItem as Person);
         }
+
     }
 }
