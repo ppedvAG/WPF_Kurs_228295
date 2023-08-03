@@ -43,5 +43,10 @@ namespace Trigger
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BoolVal)));
         }
+
+        private void colorPicker_PickedColorChanged(object sender, RoutedPropertyChangedEventArgs<SolidColorBrush> e)
+        {
+            this.Title = colorPicker.PickedColor.ToString();
+        }
     }
 }
