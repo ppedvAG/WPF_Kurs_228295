@@ -4,6 +4,8 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <AssemblyName>UserControls</AssemblyName>
+    <RootNamespace>UserControls</RootNamespace>
   </PropertyGroup>
 
 </Project>
