@@ -11,7 +11,7 @@
         Style="{StaticResource Sty_Wnd}">
 
     <Window.DataContext>
-        <local:Person Geschlecht="Weiblich" Lieblingsfarbe="Purple"/>
+        <local:Person/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -29,6 +29,23 @@
         </x:Array>
 
         <local:ColorToBrushConverter x:Key="color2brush"/>
+
+        <ControlTemplate x:Key="CtpError">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Red" BorderThickness="1" x:Name="BdrAep">
+                    <AdornedElementPlaceholder x:Name="Aep"/>
+                </Border>
+                <TextBlock Text="!" Foreground="Red" FontSize="{StaticResource Dbl_Fontsize}"
+                           Margin="3,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Popup AllowsTransparency="True" PopupAnimation="Slide"
+                       PlacementTarget="{Binding ElementName=BdrAep}" Placement="Bottom"
+                       IsOpen="{Binding ElementName=Aep, Path=AdornedElement.IsMouseOver, Mode=OneWay}">
+                    <TextBlock Text="{Binding ElementName=Aep, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                               Foreground="White" Background="Red" Padding="2" FontSize="{StaticResource Dbl_Fontsize}"/>
+                </Popup>
+            </StackPanel>
+        </ControlTemplate>
+
     </Window.Resources>
     
     <Grid Margin="10">
@@ -61,15 +78,18 @@
 
         <TextBox x:Name="Tbx_Vorname"
                  Grid.Column="1"
-                 Text="{Binding Vorname}"/>
+                 Text="{Binding Vorname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource CtpError}"/>
 
         <TextBox x:Name="Tbx_Nachname"
                  Grid.Column="1" Grid.Row="1"
-                 Text="{Binding Nachname}"/>
+                 Text="{Binding Nachname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource CtpError}"/>
 
         <DatePicker x:Name="Dpr_Geburtsdatum"
                     Grid.Column="1" Grid.Row="2"
-                    SelectedDate="{Binding Geburtsdatum}"/>
+                    SelectedDate="{Binding Geburtsdatum, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource CtpError}"/>
 
         <CheckBox x:Name="Cbx_Verheiratet"
                   Grid.Column="1" Grid.Row="3"
@@ -77,8 +97,9 @@
 
         <ComboBox x:Name="Cbb_Lieblingsfarbe"
                   Grid.Column="1" Grid.Row="4"
-                  SelectedItem="{Binding Lieblingsfarbe}"
-                  ItemsSource="{StaticResource usedColors}">
+                  SelectedItem="{Binding Lieblingsfarbe, ValidatesOnDataErrors=True}"
+                  ItemsSource="{StaticResource usedColors}"
+                  Validation.ErrorTemplate="{StaticResource CtpError}">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type Color}">
                     <StackPanel Orientation="Horizontal">
