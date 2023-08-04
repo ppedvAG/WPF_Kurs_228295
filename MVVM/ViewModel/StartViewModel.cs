@@ -32,7 +32,7 @@ namespace MVVM.ViewModel
                 (
                     p =>
                     {
-                        //TODO: DataGrid-Fenster öffnen
+                        new View.DataView().Show();
 
                         (p as Window).Close();
                     },
