@@ -11,6 +11,7 @@
         Title="Personendatenbank" Height="450" Width="800"
         Style="{StaticResource Sty_Wnd}">
 
+    <!--Das zugehörige ViewModel dient dieser Seite als DatenKontext-->
     <Window.DataContext>
         <vm:DataViewModel/>
     </Window.DataContext>
@@ -35,6 +36,7 @@
             <Button x:Name="Btn_Neu"
                     Content="Neue Person"
                     Command="{Binding NewCmd}"/>
+            <!--Der Aendern- und der Loeschen-Command übergaben als Parameter das in dem DataGrid ausgewählte Objekt-->
             <Button x:Name="Btn_Aendern"
                     Content="Ändere Person"
                     Command="{Binding ÄndernCmd}"
@@ -45,6 +47,13 @@
                     CommandParameter="{Binding ElementName=Dgd_Personen, Path=SelectedItem}"/>
         </WrapPanel>
 
+        <!--DataGrids werden zur Visualisierung komplexer Datenlisten verwendet. Die ItemSource-Property ist
+        über eine Kurzbindung an den DataContext gebunden. Die einzelnen Eigenschaften der Objekte (vgl. die
+        Column-Einträge) sind per Kurzbindungen an die ItemSource gebunden.
+        Mit AutoGenerateColumns="False" verhindert man eine automatische Generierung der Spalten.
+        IsReadOnly="True" führen dazu, dass der Benutzer die Einträge nicht direkt bearbeiten kann.
+        Setzt man sowohl Background, als auch AlternatingRowBackground, wechseln sich die Zeilen ihre Farbe
+        betreffend ab.-->
         <DataGrid x:Name="Dgd_Personen"
                   Margin="10"
                   ItemsSource="{Binding Personenliste}"
@@ -57,7 +66,8 @@
                                            CommandParameter="{Binding ElementName=Dgd_Personen, Path=SelectedItem}"/>                                           
                 </b:EventTrigger>
             </b:Interaction.Triggers>
-            
+
+            <!--In der Columns-Property definiert man die benötigten Spalten und bindet diese an die ItemSource-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Vorname" Binding="{Binding Vorname}" Width="*"/>
                 <DataGridTextColumn Header="Nachname" Binding="{Binding Nachname}" Width="*"/>
@@ -65,6 +75,7 @@
                 <DataGridTextColumn Header="Geburtsdatum" Binding="{Binding Geburtsdatum, StringFormat=dd.MM.yyyy}" Width="Auto"/>
                 <DataGridTextColumn Header="Kinder" Binding="{Binding Kinder}" Width="Auto"/>
                 <DataGridTextColumn Header="Lieblingsfarbe" Binding="{Binding Lieblingsfarbe}" Width="Auto">
+                    <!--Mithilfe der CellStyle-Property können die Styles von Zellen angepasst werden-->
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="{Binding Lieblingsfarbe, Converter={StaticResource color2brush}}"/>

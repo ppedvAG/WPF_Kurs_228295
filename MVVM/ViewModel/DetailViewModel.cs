@@ -11,10 +11,12 @@ namespace MVVM.ViewModel
 {
     public class DetailViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        //Command-Properties
         public event PropertyChangedEventHandler? PropertyChanged;
         public CustomCommand OkCmd { get; set; }
         public CustomCommand AbbruchCmd { get; set; }
 
+        //Property, welche die neue oder zu bearbeitende Person beinhaltet
         private Model.Person neuePerson;
         public Model.Person NeuePerson
         {
@@ -26,6 +28,7 @@ namespace MVVM.ViewModel
             }
         }
 
+        //Properties der einzlenen Eigenschaften
         public string Vorname { get => NeuePerson.Vorname; set => NeuePerson.Vorname = value; }
         public string Nachname { get => NeuePerson.Nachname; set => NeuePerson.Nachname = value; }
         public DateTime Geburtsdatum { get => NeuePerson.Geburtsdatum; set => NeuePerson.Geburtsdatum = value; }
@@ -38,24 +41,33 @@ namespace MVVM.ViewModel
         {
             NeuePerson = new Model.Person();
 
+            //OK-Command (Bestätigung)
             OkCmd = new CustomCommand
                 (
+                    //Exe:
                     p =>
                     {
+                        //Nachfrage auf Korrektheit der Daten per MessageBox
                         string ausgabe = NeuePerson.Vorname + " " + NeuePerson.Nachname + " (" + NeuePerson.Geschlecht + ")\n" + NeuePerson.Geburtsdatum.ToShortDateString() + "\n" + NeuePerson.Lieblingsfarbe.ToString();
                         if (NeuePerson.Verheiratet) ausgabe = ausgabe + "\nIst verheiratet";
                         if (NeuePerson.Kinder > 0) ausgabe = ausgabe + $"\nHat {NeuePerson.Kinder} {(NeuePerson.Kinder == 1 ? "Kind" : "Kinder")}";
                         if (MessageBox.Show(ausgabe + "\nAbspeichern?", NeuePerson.Vorname + " " + NeuePerson.Nachname, MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                         {
+                            //Setzen des DialogResults des Views (welches per Parameter übergeben wurde) auf true, damit das ListView weiß, dass es weiter
+                            //machen kann (d.h. die neuen Person einfügen bzw. austauschen)
                             (p as Window).DialogResult = true;
+                            //Schließen des Views
                             (p as Window).Close();
                         }
                     },
+                    //CanExe: Validierungs-Check
                     p => HasNoError
                 );
 
+            //Abbruch-Cmd
             AbbruchCmd = new CustomCommand
                 (
+                    //Exe: Schließen des Fensters
                     p => (p as Window).Close(),
                     p => true
                 );

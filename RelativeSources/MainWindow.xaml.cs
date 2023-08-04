@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Commands
+namespace RelativeSources
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,23 +23,6 @@ namespace Commands
         public MainWindow()
         {
             InitializeComponent();
-
-            //Initialisierung der Commands
-            OpenCmd = new CustomCommand
-                (
-                    //Übergabe der Execute()-Logik
-                    p => new MainWindow().Show(),
-                    //Übergabe der CanExecute()-Logik
-                    p => (p as string).Length >= 1
-                );
-
-            //Setzen des DataContext
-            this.DataContext = this;
         }
-
-        //Commandproperties 
-        public CloseCommand CloseCmd { get; set; } = new CloseCommand();
-
-        public CustomCommand OpenCmd { get; set; }
     }
 }

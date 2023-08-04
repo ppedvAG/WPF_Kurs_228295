@@ -8,22 +8,26 @@ using System.Windows.Input;
 
 namespace Commands
 {
+    //Auf eine Aufgabe (das Schließen eines Fensters) spezialisierte Command-Klasse (vgl. CustomCommand.cs)
     public class CloseCommand : ICommand
     {
-        public event EventHandler? CanExecuteChanged
+        //Anmeldung des Events im CommandManager der Applikation
+        public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public bool CanExecute(object? parameter)
+        //Bedingung für Ausführung
+        public bool CanExecute(object parameter)
         {
-            return (parameter as Window).Width < 150;
+            return (parameter as MainWindow).Width < 150;
         }
 
-        public void Execute(object? parameter)
+        //Aktion bei Ausführung
+        public void Execute(object parameter)
         {
-            (parameter as Window).Close();
+            (parameter as MainWindow).Close();
         }
     }
 }

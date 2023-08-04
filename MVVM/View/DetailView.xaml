@@ -15,6 +15,7 @@
         Style="{StaticResource Sty_Wnd}"
         x:Name="Wnd_DetailView">
 
+    <!--Das zugehörige ViewModel dient dieser Seite als DatenKontext-->
     <Window.DataContext>
         <vm:DetailViewModel/>
     </Window.DataContext>
@@ -35,6 +36,7 @@
 
         <c:ColorToBrushConverter x:Key="color2brush"/>
 
+        <!--Error-Template für den Fall einer fehlerhaften Eingabe in einzelnen Controls-->
         <ControlTemplate x:Key="CtpError">
             <StackPanel Orientation="Horizontal">
                 <Border BorderBrush="Red" BorderThickness="1" x:Name="BdrAep">
@@ -54,6 +56,7 @@
     </Window.Resources>
 
     <Grid Margin="10">
+        <!--Grid-Spalten- und Reihen-Definitionen-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -69,6 +72,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--linke Spalte (nur statische Stringanzeigen)-->
         <TextBlock Text="Vorname:"/>
         <TextBlock Text="Nachname:" 
                    Grid.Row="1"/>
@@ -84,6 +88,9 @@
         <TextBlock Text="Anzahl Kinder:" 
                    Grid.Row="6"/>
 
+        <!--rechte Spalte (Eingabefelder)
+        Bindungen erfolgen an Eigenschaften (z.B. Vorname) einer Property (NeuePerson) aus dem DataContext.
+        Zur Verwendung des Validierungs-Interfaces wurde ValidatesOnDataErrors gesetzt.-->
         <TextBox x:Name="Tbx_Vorname"
                  Grid.Column="1"
                  Text="{Binding Vorname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -109,6 +116,7 @@
                   ItemsSource="{StaticResource usedColors}"
                   Validation.ErrorTemplate="{StaticResource CtpError}">
             <ComboBox.ItemTemplate>
+                <!--Diese ItemTemplate stellt vor dem entsprechenden Farbnamen ein Recteck in dieser Farbe dar-->
                 <DataTemplate DataType="{x:Type Color}">
                     <StackPanel Orientation="Horizontal">
                         <Border BorderBrush="Black" BorderThickness="1" Width="20" Height="20" Margin="5,0">
@@ -122,6 +130,8 @@
 
         <StackPanel Margin="2"
                     Grid.Column="1" Grid.Row="5">
+            <!--Die RadioButtons übermitteln an den Konverter den ihnen zugeteilten Enumerator-Zustand über den 
+        ConverterParameter. Dadurch muss der Konverter diese nur noch mit der ausgewählten Eigenschaft vergleichen.-->
             <RadioButton Content="M"
                          GroupName="Rbg_Gender"
                          IsChecked="{Binding Geschlecht, Converter={StaticResource gender2bool}, ConverterParameter={x:Static main:Gender.Männlich}}"/>
@@ -141,6 +151,7 @@
 
         <WrapPanel Grid.Row="7" Grid.ColumnSpan="2"
                    HorizontalAlignment="Right" Margin="0,5">
+            <!--Den Buttons wird als CommandParameter das Fenster übergeben, damit im ViewModel dessen Close-Befehl verwendet werden kann-->
             <Button x:Name="Btn_Ok"
                     Content="OK"
                     Command="{Binding OkCmd}"

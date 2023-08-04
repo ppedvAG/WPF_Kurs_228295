@@ -8,6 +8,7 @@ using System.Windows.Data;
 
 namespace MVVM.Converter
 {
+    //vgl. M05_PropertyBinding
     internal class EnumToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

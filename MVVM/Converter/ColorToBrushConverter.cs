@@ -7,6 +7,7 @@ using System.Windows.Media;
 
 namespace MVVM.Converter
 {
+    //vgl. M05_PropertyBinding
     public class ColorToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
